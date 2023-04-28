@@ -1,0 +1,3 @@
+chọn ảnh cho data base: 1,6,8 (90 cái) + 10 cái 5 của 2004
+
+run: chay matching.ipynb
