@@ -6,29 +6,6 @@ import sys
 sys.path.append('D:\PTIT\ki2_nam4\CSDL_da_phuong_tien\Fingerprint')
 
 import predict
-# def home(request):
-#     if request.method == 'POST' and request.FILES.get('file'):
-#         uploaded_file = request.FILES['file']
-        
-#         # Tạo đường dẫn tới file ảnh đã được upload
-#         image_path = os.path.join(settings.MEDIA_ROOT, uploaded_file.name)
-#         print(image_path)
-#         # Lưu file vào thư mục lưu trữ
-#         with open(image_path, 'wb+') as destination:
-#             for chunk in uploaded_file.chunks():
-#                 destination.write(chunk)
-#         print("path: ",image_path)
-#         # if image_path is not None:
-#         #     image_result = predict.predict(image_path)
-#         #     print("ket qua la : ",image_result)
-#         #     path_result = f"./static/data_test_ủnen /{image_result}"
-#         # Truyền đường dẫn ảnh vào context
-
-#         context = {'upload_success': True, 'image_path': uploaded_file.name}
-
-#         return render(request, 'home.html', context)
-    
-#     return render(request, 'home.html')
 
 def home(request):
     if request.method == 'POST' and request.FILES.get('file'):
@@ -49,7 +26,7 @@ def home(request):
             image_result = predict.predict(image_path)
             print("ket qua la : ",image_result)
 
-            path_result = os.path.join(settings.RESULT_URL, image_result)
+            path_result = os.path.join(settings.STATIC_URL, image_result)
          
         # Truyền đường dẫn ảnh vào context
         context = {'upload_success': True, 'image_url': image_url, 'path_result': path_result}
