@@ -1,0 +1,86 @@
+<style>
+    #image-preview {
+        display: block;
+        max-width: 300px;
+        max-height: 300px;
+        width: auto;
+        height: auto;
+    }
+
+    #image-upload {
+        margin-bottom: 10px;
+    }
+
+    #form-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 50px;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #form-container form {
+        margin-top: 10px;
+    }
+
+    .upload_success {
+        display: flex;
+        align-items: center;
+    }
+
+    .upload_success img {
+        margin-right: 10px;
+    }
+
+    button[type="submit"] {
+        margin-top: 10px;
+    }
+
+    .upload_success {
+        display: flex;
+        align-items: center;
+    }
+
+    .upload_success img.uploaded-image {
+        width: 200px; /* Kích thước mong muốn của ảnh */
+        height: auto; /* Giữ tỷ lệ khung hình */
+        margin-right: 10px;
+    }
+</style>
+
+<div id="form-container">
+    <h2>Upload ảnh</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" id="image-upload" name="file" onchange="previewImage(event)">
+        <img id="image-preview" src="#" alt="Preview Image" style="display: none;">
+        <button type="submit">Search</button>
+    </form>
+</div>
+
+<div class="upload_success">
+    {% if upload_success %}
+        <div>Upload thành công!</div>
+        <img src="{{ image_url }}" alt="Uploaded Image" width="30%">
+        <div>Kết quả so sánh!</div>
+        <img src="{{ path_result }}" alt="Uploaded Image" width="60%">
+    {% endif %}
+</div>
+
+<script>
+    function previewImage(event) {
+      var reader = new FileReader();
+      var imagePreview = document.getElementById("image-preview");
+
+      reader.onload = function() {
+        if (reader.readyState == 2) {
+          imagePreview.src = reader.result;
+          imagePreview.style.display = "block";
+        }
+      }
+    
+      if (event.target.files[0]) {
+        reader.readAsDataURL(event.target.files[0]);
+      }
+    }
+</script>
