@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from django.conf import settings
 import os
-# from predict import predict
 import sys
 sys.path.append('D:\PTIT\ki2_nam4\CSDL_da_phuong_tien\Fingerprint')
 
 import predict
+
 
 def home(request):
     if request.method == 'POST' and request.FILES.get('file'):
@@ -26,7 +26,7 @@ def home(request):
             image_result = predict.predict(image_path)
             print("ket qua la : ",image_result)
 
-            path_result = os.path.join(settings.STATIC_URL, image_result)
+            path_result = os.path.join(settings.IMG_URL, image_result)
          
         # Truyền đường dẫn ảnh vào context
         context = {'upload_success': True, 'image_url': image_url, 'path_result': path_result}

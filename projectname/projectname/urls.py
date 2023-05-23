@@ -22,4 +22,4 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.home, name='home'),
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.IMG_URL, document_root=settings.IMG_ROOT)
