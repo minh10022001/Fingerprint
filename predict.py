@@ -5,7 +5,7 @@ import numpy as np
 from matching import extract_angle, extract_tuple_profile, generate_tuple_profile, match_tuples, similarity_two_img, match
 import json
 def predict(image_path):
-    with open('D:\PTIT\ki2_nam4\CSDL_da_phuong_tien\Fingerprint\data.json','r') as f:
+    with open('.\Fingerprint\data.json','r') as f:
         data = json.load(f)
 
     img_test = cv2.imread(image_path,0)
@@ -27,11 +27,11 @@ def predict(image_path):
     for k in range(len(FeaturesBif)):
         location_minutiae_bifurcation.append((FeaturesBif[k].locX, FeaturesBif[k].locY))
 
-    feature_termination = generate_tuple_profile(location_minutiae,location_minutiae_termination,7)
-    feature_bifurcation = generate_tuple_profile(location_minutiae,location_minutiae_bifurcation,7)
+    feature_termination = generate_tuple_profile(location_minutiae,location_minutiae_termination,5)
+    feature_bifurcation = generate_tuple_profile(location_minutiae,location_minutiae_bifurcation,5)
     feature = dict()
     feature['Termination']  = feature_termination
-    feature['Bifurcation']  = feature_bifurcation
+    feature['Bifurcation']  = feature_bifurcations
     list_db = list(data.values())
     list_key = list(data.keys())
     list_score =[]

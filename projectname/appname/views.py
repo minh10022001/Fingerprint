@@ -2,9 +2,9 @@ from django.shortcuts import render
 from django.conf import settings
 import os
 import sys
-sys.path.append('D:\PTIT\ki2_nam4\CSDL_da_phuong_tien\Fingerprint')
+sys.path.append('.\Fingerprint')
 
-import predict
+from Fingerprint.predict import predict
 
 
 def home(request):
