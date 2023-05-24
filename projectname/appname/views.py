@@ -4,7 +4,7 @@ import os
 import sys
 sys.path.append('.\Fingerprint')
 
-from Fingerprint.predict import predict
+import predict
 
 
 def home(request):
@@ -23,9 +23,10 @@ def home(request):
         image_url = os.path.join(settings.MEDIA_URL, uploaded_file.name)
 
         if image_path is not None:
-            image_result = predict.predict(image_path)
+            image_result , score = predict.predict(image_path)
             print("ket qua la : ",image_result)
-
+            print("điểm: ", score)
+            
             path_result = os.path.join(settings.IMG_URL, image_result)
          
         # Truyền đường dẫn ảnh vào context

@@ -2,10 +2,11 @@ import cv2
 import fingerprint_enhancer
 import fingerprint_feature_extractor
 import numpy as np
+
 from matching import extract_angle, extract_tuple_profile, generate_tuple_profile, match_tuples, similarity_two_img, match
 import json
 def predict(image_path):
-    with open('.\Fingerprint\data.json','r') as f:
+    with open('data.json','r') as f:
         data = json.load(f)
 
     img_test = cv2.imread(image_path,0)
@@ -31,7 +32,7 @@ def predict(image_path):
     feature_bifurcation = generate_tuple_profile(location_minutiae,location_minutiae_bifurcation,5)
     feature = dict()
     feature['Termination']  = feature_termination
-    feature['Bifurcation']  = feature_bifurcations
+    feature['Bifurcation']  = feature_bifurcation
     list_db = list(data.values())
     list_key = list(data.keys())
     list_score =[]
@@ -44,5 +45,7 @@ def predict(image_path):
         a =len(list(feature.values())[1]) + len(list(feature.values())[0])
         b  = len(list(list_db[i].values())[1]) + len(list(list_db[i].values())[0])
         list_score.append(number_common_points/((a+b)/2))
+    file_result = None
+    if max(list_score)> 0:
         file_result = list_key[list_score.index(max(list_score))]
-    return file_result
+    return file_result, max(list_score)
