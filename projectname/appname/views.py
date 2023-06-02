@@ -27,10 +27,20 @@ def home(request):
             print("ket qua la : ",image_result)
             print("điểm: ", score)
             
-            path_result = os.path.join(settings.IMG_URL, image_result)
+            if score!= None:
+                if score<0.02:
+                    score = None
+                else:
+                    score = score*100
+            
+          
+            if image_result  != None:
+                path_result = os.path.join(settings.IMG_URL, image_result)
+            else:
+                path_result = os.path.join(settings.IMG_URL, "search-no-result-concept-illustration-flat-design-eps10-modern-graphic-element-for-landing-page-empty-state-ui-infographic-icon-vector.jpg")
          
         # Truyền đường dẫn ảnh vào context
-        context = {'upload_success': True, 'image_url': image_url, 'path_result': path_result}
+        context = {'upload_success': True, 'image_url': image_url, 'path_result': path_result, "score": score}
          
         return render(request, 'home.html', context)
      

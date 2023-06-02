@@ -62,7 +62,11 @@
     {% if upload_success %}
         <div>Upload thành công!</div>
         <img src="{{ image_url }}" alt="Uploaded Image" width="30%">
-        <div>Kết quả so sánh!</div>
+        {% if score is  none  %}
+            <div>Kết quả so sánh!</div>
+        {% else %}
+             <div>Kết quả so sánh: {{score}} %</div>
+        {% endif %}
         <img src="{{  path_result  }}" alt="Uploaded Image" width="30%">
     {% endif %}
 </div>
