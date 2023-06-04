@@ -61,7 +61,7 @@ def extract_tuple_profile(distances: list, m: tuple, minutiae: list, k: int) -> 
     # i-i4 : i-i5
     unique_pairs = list(combinations(closest_distances, 2))
     # 2 decimal rounded ratios of max of the two distances divided by their minimum.
-    compute_ratios = [round(max(p[0], p[1]) / min(p[0], p[1]), 2) for p in unique_pairs]
+    compute_ratios = [round(p[0]/p[1], 2) for p in unique_pairs]
 
     # Angle computation.
     minutiae_combinations = list(combinations(closest_minutiae, 2))
