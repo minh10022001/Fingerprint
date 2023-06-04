@@ -25,6 +25,7 @@
 
     .upload_success {
         display: flex;
+        justify-content: center;
         align-items: center;
     }
 
@@ -46,6 +47,25 @@
         height: auto; /* Giữ tỷ lệ khung hình */
         margin-right: 10px;
     }
+
+    .upload-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        margin-right: 20px;
+    }
+
+    .upload-result {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        margin-left: 20px;
+    }
+
 </style>
 
 <div id="form-container">
@@ -60,14 +80,18 @@
 
 <div class="upload_success">
     {% if upload_success %}
-        <div>Upload thành công!</div>
-        <img src="{{ image_url }}" alt="Uploaded Image" width="30%">
-        {% if score is  none  %}
-            <div>Kết quả so sánh!</div>
-        {% else %}
-             <div>Kết quả so sánh: {{score}} %</div>
-        {% endif %}
-        <img src="{{  path_result  }}" alt="Uploaded Image" width="30%">
+        <div class="upload-info">
+            <h4>Upload ảnh thành công!</h4>
+            <img src="{{ image_url }}" alt="Uploaded Image" width="100%">
+        </div>
+        <div class="upload-result">
+            {% if score is  none  %}
+                <h4>Kết quả so sánh!</h4>
+            {% else %}
+                <h4>Kết quả so sánh: {{score}} %</h4>
+            {% endif %}
+            <img src="{{  path_result  }}" alt="Uploaded Image" width="100%">
+        </div>
     {% endif %}
 </div>
 
