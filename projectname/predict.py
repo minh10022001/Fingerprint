@@ -3,7 +3,7 @@ import fingerprint_enhancer
 import fingerprint_feature_extractor
 import numpy as np
 
-from matching import extract_angle, extract_tuple_profile, generate_tuple_profile, match_tuples, similarity_two_img, match
+from matching1 import extract_angle, extract_tuple_profile, generate_tuple_profile, match_tuples, match
 import json
 def predict(image_path):
     with open('data.json','r') as f:

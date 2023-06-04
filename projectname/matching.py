@@ -2,6 +2,7 @@ import numpy as np
 import math
 from itertools import combinations
 from scipy.spatial import distance
+
 def extract_angle(a: list, b: list) -> float:
     """
     Extract angle between two vectors with endpoints defined by two tuples.
