@@ -181,7 +181,7 @@ def match_tuples(tuple_base: dict, tuple_test: dict, th_range: float = .01, th_a
                             list_point_done_column.append(j)
                             if matrix_score_all_point[i][j] >= (T//2):
                                 common_points_base.append(point_base[j])
-                            common_points_test.append(point_test[i])
+                                common_points_test.append(point_test[i])
                             check1 =False
                             check2 = False
                     if check2 == False:
@@ -193,6 +193,7 @@ def match_tuples(tuple_base: dict, tuple_test: dict, th_range: float = .01, th_a
 def match(data_base: dict, data_test:dict, th_range: float = .01, th_angle: float = 1.5):
     termination_base = list(data_base.values())[0]
     bifurcation_base = list(data_base.values())[1]
+
     termination_test = list(data_test.values())[0]
     bifurcation_test = list(data_test.values())[1]
 
