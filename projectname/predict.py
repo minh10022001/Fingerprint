@@ -29,8 +29,8 @@ def predict(image_path):
         for k in range(len(FeaturesBif)):
             location_minutiae_bifurcation.append((FeaturesBif[k].locX, FeaturesBif[k].locY))
 
-        feature_termination = generate_tuple_profile(location_minutiae,location_minutiae_termination,5)
-        feature_bifurcation = generate_tuple_profile(location_minutiae,location_minutiae_bifurcation,5)
+        feature_termination = generate_tuple_profile(location_minutiae,location_minutiae_termination,3)
+        feature_bifurcation = generate_tuple_profile(location_minutiae,location_minutiae_bifurcation,3)
         feature = dict()
         feature['Termination']  = feature_termination
         feature['Bifurcation']  = feature_bifurcation
@@ -39,7 +39,7 @@ def predict(image_path):
         list_score =[]
         list_common_points = []
         for i in range(len(list_db)):
-            common_points_base, common_points_test = match(feature, list_db[i], th_range = 0.25,th_angle=5)
+            common_points_base, common_points_test = match(feature, list_db[i], th_range = 0.1,th_angle=2)
             number_common_points = len(common_points_base)
             list_common_points.append(number_common_points)
             # list_score.append(common_points)

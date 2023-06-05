@@ -82,7 +82,7 @@
     {% if upload_success %}
         <div class="upload-info">
             <h4>Upload ảnh thành công!</h4>
-            <img src="{{ image_url }}" alt="Uploaded Image" width="100%">
+            <img src="{{ image_url }}" alt="Uploaded Image" width="300vw">
         </div>
         <div class="upload-result">
             {% if score is  none  %}
@@ -90,7 +90,7 @@
             {% else %}
                 <h4>Kết quả so sánh: {{score}} %</h4>
             {% endif %}
-            <img src="{{  path_result  }}" alt="Uploaded Image" width="100%">
+            <img src="{{  path_result  }}" alt="Uploaded Image" width="300vw">
         </div>
     {% endif %}
 </div>
