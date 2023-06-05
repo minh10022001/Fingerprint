@@ -1,4 +1,6 @@
 
+from ast import Break
+from tabnanny import check
 import numpy as np
 import math
 from itertools import combinations
@@ -108,12 +110,16 @@ def match_two_point(ratios_base, angles_base, ratios_test, angles_test, th_range
     count = 0
     list_done = []
     for i in range(len(ratios_base)):
+        check = True
         for j in range(len(ratios_base)):
             if j not in list_done:
                 if ((ratios_test[i] >= ratios_base[j] - th_range)  * (ratios_test[i] <= ratios_base[j] + th_range)) == True and  ((angles_test[i] >= angles_base[j] - th_angle)  * (angles_test[i] <= angles_base[j] + th_angle)) == True:
                     count +=1
                     list_done.append(j)
+                    check =  False
                     break
+            if check == False:
+                break
     return count
     
 def match_tuples(tuple_base: dict, tuple_test: dict, th_range: float = .01, th_angle: float = 1.5):
@@ -137,10 +143,11 @@ def match_tuples(tuple_base: dict, tuple_test: dict, th_range: float = .01, th_a
     for i in range(num_point_test):
         list_score = []
         for j in range(num_point_base):
-            list_score_all_point.append(match_two_point(ratios_base[j],angles_base[j],ratios_test[i],angles_test[i],th_range, th_angle ))
+            # list_score_all_point.append(match_two_point(ratios_base[j],angles_base[j],ratios_test[i],angles_test[i],th_range, th_angle ))
             list_score.append(match_two_point(ratios_base[j],angles_base[j],ratios_test[i],angles_test[i],th_range, th_angle ))
         matrix_score_all_point.append(list_score)
     index = min(num_point_base,num_point_test)
+    list_score_all_point =  np.array(matrix_score_all_point).reshape(-1)
     list_sorted = sorted(list_score_all_point, reverse= True)
     
     list_point_done_row = []
@@ -150,9 +157,11 @@ def match_tuples(tuple_base: dict, tuple_test: dict, th_range: float = .01, th_a
 
     for k in range(index):
         for i in range(num_point_test):
+            check1= True
             if i not in list_point_done_row:
                 for j in range(num_point_base):
-                    if j not in list_point_done_column:
+                    check2 = True
+                    if j not in list_point_done_column and i not in list_point_done_row:
                         if matrix_score_all_point[i][j] == list_sorted[0]:
                            
 
@@ -172,8 +181,13 @@ def match_tuples(tuple_base: dict, tuple_test: dict, th_range: float = .01, th_a
                             list_point_done_column.append(j)
                             if matrix_score_all_point[i][j] >= (T//2):
                                 common_points_base.append(point_base[j])
-                                common_points_test.append(point_test[i])
-
+                            common_points_test.append(point_test[i])
+                            check1 =False
+                            check2 = False
+                    if check2 == False:
+                        break
+            if check1 == False:
+                break
     return common_points_base, common_points_test
 
 def match(data_base: dict, data_test:dict, th_range: float = .01, th_angle: float = 1.5):
