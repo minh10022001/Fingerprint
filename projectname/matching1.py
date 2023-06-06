@@ -7,20 +7,12 @@ from itertools import combinations
 from scipy.spatial import distance
 
 
+
 def extract_angle(a: list, b: list) -> float:
     """
-    Extract angle between two vectors with endpoints defined by two tuples.
-
-    Args:
-        a            (list): First segment that contains a starting coordinate (x, y) and an ending coordinate (x, y)
-        b            (list): Second segment that contains a starting coordinate (x, y) and an ending coordinate (x, y)
-        centre_angle (bool): True - free angle, False - constrained in the range [0, 180]
-
-    Returns:
-        float: Angle between the two segments.
-
+    compute angle between 2 vector 
+        =>output:  angle(degree)
     """
-
     # Vector form
     a_vec = [(a[0][0] - a[1][0]), (a[0][1] - a[1][1])]
     b_vec = [(b[0][0] - b[1][0]), (b[0][1] - b[1][1])]
@@ -42,36 +34,20 @@ def extract_angle(a: list, b: list) -> float:
 
 def extract_tuple_profile(distances: list, m: tuple, minutiae: list, k: int) -> list:
     """
-    Explores tuple profile. A tuple is a set of minutiae that are found close together.
-
-    Args:
-        distances (np.array): Distances between a tuple and its neighbours. Should be used for computing the tuple profile.
-        m            (tuple): The base minutiae from which the distances are computed.
-        minutiae      (list): List of tuple-like coordinates for all minutiae.
-
-    Returns:
-        list: [ratios, angles] - A pair of all angles (list) and all ratios (list) identified for the given tuple.
-
+        get vector rotios and vector angles for  point minutiae (m)
     """
-
-    # Closest minutiae to the current minutiae
+    
+    #get distance of k neiborhood point to point minutiae(m) and their  coordinates => d1,d2,..dk
     closest_distances = sorted(distances)[1:k+1]
     closest_indices = [list(distances).index(d) for d in closest_distances]
     closest_minutiae = [minutiae[i] for i in closest_indices]
-
-    # Unique pair ratios.
-    # The 10 pairs used for computing the ratios
-    # i-i1 : i-i2, i-i1 : i-i3, i-i1 : i-i4, i-i1 : i-i5,
-    # i-i2 : i-i3, i-i2 : i-i4, i-i2 : i-i5
-    # i-i3 : i-i4, i-i3 : i-i5
-    # i-i4 : i-i5
+    
+    #get ratios of pair of distance(d1,..dk) => list ratios
     unique_pairs = list(combinations(closest_distances, 2))
-    # 2 decimal rounded ratios of max of the two distances divided by their minimum.
     compute_ratios = [round(p[0]/p[1], 2) for p in unique_pairs]
 
-    # Angle computation.
+    # Angle computation.=> get angle is generate by point (m) and 2 point k-neiborhood => list angle
     minutiae_combinations = list(combinations(closest_minutiae, 2))
-
     # Angle between the segments drawn from m to the two other minutae with varying distances.
     minutiae_angles = [round(extract_angle((m, x), (m, y)), 2) for x, y in minutiae_combinations]
 
@@ -92,7 +68,13 @@ def euclidian_distance(m1: tuple, m2: tuple) -> float:
 
     return distance.euclidean(m1, m2)
 
+
 def generate_tuple_profile(all_minutiae: list, each_minutiae: list, k:int) -> dict:
+
+    """
+    get get vector rotios and vector angles for all point minutiae in image with specific kind of minutiae
+    output: dict()
+    """
     distance_matrix = np.array([[euclidian_distance(i, j) for i in all_minutiae] for j in all_minutiae])
 
     tuples = {}
@@ -107,6 +89,10 @@ def generate_tuple_profile(all_minutiae: list, each_minutiae: list, k:int) -> di
 
 
 def match_two_point(ratios_base, angles_base, ratios_test, angles_test, th_range, th_angle):
+
+    """
+    get score when checking matched for 2 minutiae points
+    """
     count = 0
     list_done = []
     for i in range(len(ratios_base)):
@@ -123,6 +109,9 @@ def match_two_point(ratios_base, angles_base, ratios_test, angles_test, th_range
     return count
     
 def match_tuples(tuple_base: dict, tuple_test: dict, th_range: float = .01, th_angle: float = 1.5):
+    """
+    get all pair of point are matched in image base and image test for each type of minutiae point
+    """
   
     ratios_test = np.array([ratios for c, [ratios, _] in tuple_test.items()])
     angles_test = np.array([angles for c, [_, angles] in tuple_test.items()])
@@ -190,7 +179,12 @@ def match_tuples(tuple_base: dict, tuple_test: dict, th_range: float = .01, th_a
                 break
     return common_points_base, common_points_test
 
+
 def match(data_base: dict, data_test:dict, th_range: float = .01, th_angle: float = 1.5):
+
+    """
+    get all pair of point are matched in image base and image test for all type of minutiae point
+    """
     termination_base = list(data_base.values())[0]
     bifurcation_base = list(data_base.values())[1]
 

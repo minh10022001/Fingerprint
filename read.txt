@@ -1,8 +1,0 @@
-chọn ảnh cho data base: 1->6-2000(60 cái) + 10 cái 5 của 2004
-
-run: chay matching.ipynb
-
-1. Tạo virtual env
-py -m venv env hoăc python -m venv env
-
-2
